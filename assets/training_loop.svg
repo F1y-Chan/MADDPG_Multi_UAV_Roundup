@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 330" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <title>训练闭环流程图</title>
+  <rect x="0" y="0" width="1180" height="330" fill="#f7f9fc"/>
+
+  <!-- 节点工具函数：用 rect + text -->
+  <g font-size="13.5">
+    <!-- ① 环境重置 -->
+    <rect x="30"  y="60" width="120" height="86" rx="10" fill="#eef4ff" stroke="#3b6fd4" stroke-width="2"/>
+    <text x="90"  y="92"  font-size="14" font-weight="700" fill="#2b4f9e" text-anchor="middle">① 环境重置</text>
+    <text x="90"  y="114" fill="#4a5a6d" text-anchor="middle">reset()</text>
+    <text x="90"  y="133" fill="#4a5a6d" text-anchor="middle">随机初始化</text>
+
+    <!-- ② 观测 -->
+    <rect x="178" y="60" width="120" height="86" rx="10" fill="#eef4ff" stroke="#3b6fd4" stroke-width="2"/>
+    <text x="238" y="92"  font-size="14" font-weight="700" fill="#2b4f9e" text-anchor="middle">② 观测 obs</text>
+    <text x="238" y="114" fill="#4a5a6d" text-anchor="middle">追击者 26 维</text>
+    <text x="238" y="133" fill="#4a5a6d" text-anchor="middle">目标 23 维</text>
+
+    <!-- ③ Actor+噪声 -->
+    <rect x="326" y="60" width="120" height="86" rx="10" fill="#eef4ff" stroke="#3b6fd4" stroke-width="2"/>
+    <text x="386" y="92"  font-size="14" font-weight="700" fill="#2b4f9e" text-anchor="middle">③ Actor+噪声</text>
+    <text x="386" y="114" fill="#4a5a6d" text-anchor="middle">choose_action</text>
+    <text x="386" y="133" fill="#4a5a6d" text-anchor="middle">噪声 0.75→0.01</text>
+
+    <!-- ④ 动作 -->
+    <rect x="474" y="60" width="120" height="86" rx="10" fill="#fff8ef" stroke="#d98b2b" stroke-width="2"/>
+    <text x="534" y="92"  font-size="14" font-weight="700" fill="#a86a17" text-anchor="middle">④ 动作</text>
+    <text x="534" y="114" fill="#4a5a6d" text-anchor="middle">加速度 [a_x, a_y]</text>
+    <text x="534" y="133" fill="#4a5a6d" text-anchor="middle">限幅 ±0.04</text>
+
+    <!-- ⑤ 环境 step -->
+    <rect x="622" y="60" width="120" height="86" rx="10" fill="#fff8ef" stroke="#d98b2b" stroke-width="2"/>
+    <text x="682" y="92"  font-size="14" font-weight="700" fill="#a86a17" text-anchor="middle">⑤ env.step</text>
+    <text x="682" y="114" fill="#4a5a6d" text-anchor="middle">积分/限速/避障</text>
+    <text x="682" y="133" fill="#4a5a6d" text-anchor="middle">碰撞检测/奖励</text>
+
+    <!-- ⑥ 经验回放 -->
+    <rect x="770" y="60" width="120" height="86" rx="10" fill="#eef4ff" stroke="#3b6fd4" stroke-width="2"/>
+    <text x="830" y="92"  font-size="14" font-weight="700" fill="#2b4f9e" text-anchor="middle">⑥ 存入回放</text>
+    <text x="830" y="114" fill="#4a5a6d" text-anchor="middle">store_transition</text>
+    <text x="830" y="133" fill="#4a5a6d" text-anchor="middle">容量 100 万</text>
+
+    <!-- ⑦ 采样学习 -->
+    <rect x="918" y="60" width="120" height="86" rx="10" fill="#f0fbf4" stroke="#2f9e63" stroke-width="2"/>
+    <text x="978" y="92"  font-size="14" font-weight="700" fill="#1e7d4d" text-anchor="middle">⑦ 采样学习</text>
+    <text x="978" y="114" fill="#4a5a6d" text-anchor="middle">每 10 步 · batch 256</text>
+    <text x="978" y="133" fill="#4a5a6d" text-anchor="middle">Critic TD + Actor PG</text>
+
+    <!-- ⑧ 软更新 -->
+    <rect x="1066" y="60" width="96" height="86" rx="10" fill="#f0fbf4" stroke="#2f9e63" stroke-width="2"/>
+    <text x="1114" y="92" font-size="14" font-weight="700" fill="#1e7d4d" text-anchor="middle">⑧ 软更新</text>
+    <text x="1114" y="114" fill="#4a5a6d" text-anchor="middle">τ = 0.01</text>
+    <text x="1114" y="133" fill="#4a5a6d" text-anchor="middle">target 网络</text>
+  </g>
+
+  <!-- 箭头 -->
+  <g fill="#5c7cab" font-size="20" font-weight="700">
+    <text x="156" y="110">→</text><text x="304" y="110">→</text><text x="452" y="110">→</text>
+    <text x="600" y="110">→</text><text x="748" y="110">→</text><text x="896" y="110">→</text><text x="1044" y="110">→</text>
+  </g>
+
+  <!-- 回环箭头：⑧ → ② -->
+  <path d="M 1114 60 L 1114 24 L 238 24 L 238 58" fill="none" stroke="#2f9e63" stroke-width="2" stroke-dasharray="7 5"/>
+  <polygon points="232,58 244,58 238,48" fill="#2f9e63"/>
+  <text x="676" y="18" font-size="12.5" fill="#2f9e63">持续迭代直至围捕完成（每局最多 100 步）</text>
+
+  <!-- 底部参数条 -->
+  <rect x="30" y="196" width="1132" height="110" rx="12" fill="#eef4ff" stroke="#b9cdf5" stroke-width="1.5"/>
+  <text x="50" y="226" font-size="15" font-weight="700" fill="#2b4f9e">训练超参数</text>
+  <g font-size="13.5" fill="#33415c">
+    <text x="50"  y="256">学习率 Actor α = 1e-4</text>
+    <text x="300" y="256">学习率 Critic β = 3e-3</text>
+    <text x="550" y="256">折扣因子 γ = 0.99</text>
+    <text x="800" y="256">软更新 τ = 0.01</text>
+    <text x="50"  y="288">批量大小 batch = 256</text>
+    <text x="300" y="288">每 10 步学习一次</text>
+    <text x="550" y="288">每局上限 100 步</text>
+    <text x="800" y="288">总训练 5000 局</text>
+  </g>
+</svg>

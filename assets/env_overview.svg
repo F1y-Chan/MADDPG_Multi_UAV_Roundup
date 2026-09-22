@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 700" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <title>围捕环境示意图</title>
+  <!-- 背景 -->
+  <rect x="0" y="0" width="980" height="700" fill="#f7f9fc"/>
+
+  <!-- 方形区域(2x2) -->
+  <rect x="60" y="60" width="600" height="600" fill="#ffffff" stroke="#33415c" stroke-width="2.5"/>
+  <!-- 网格线 -->
+  <g stroke="#e3e9f2" stroke-width="1">
+    <line x1="210" y1="60" x2="210" y2="660"/><line x1="360" y1="60" x2="360" y2="660"/><line x1="510" y1="60" x2="510" y2="660"/>
+    <line x1="60" y1="210" x2="660" y2="210"/><line x1="60" y1="360" x2="660" y2="360"/><line x1="60" y1="510" x2="660" y2="510"/>
+  </g>
+  <!-- 坐标刻度 -->
+  <g font-size="13" fill="#5a6b7f" text-anchor="middle">
+    <text x="60" y="688">0</text><text x="360" y="688">1</text><text x="660" y="688">2</text>
+    <text x="30" y="664">0</text><text x="30" y="364">1</text><text x="30" y="64">2</text>
+  </g>
+  <text x="60" y="712" font-size="14" fill="#33415c" font-weight="600">x →</text>
+  <text x="12" y="685" font-size="14" fill="#33415c" font-weight="600">y</text>
+
+  <!-- 障碍物（静止圆形） -->
+  <g>
+    <circle cx="360" cy="345" r="36" fill="#aeb8c7" opacity="0.65" stroke="#7d8a9c" stroke-width="1.5"/>
+    <circle cx="510" cy="495" r="45" fill="#aeb8c7" opacity="0.65" stroke="#7d8a9c" stroke-width="1.5"/>
+    <circle cx="276" cy="234" r="30" fill="#aeb8c7" opacity="0.65" stroke="#7d8a9c" stroke-width="1.5"/>
+  </g>
+
+  <!-- 激光束示意（agent_1 的 6 条） -->
+  <g stroke="#22a06b" stroke-width="1.6" opacity="0.55">
+    <line x1="330" y1="585" x2="585" y2="585"/>       <!-- 右侧撞障碍2 -->
+    <line x1="330" y1="585" x2="444" y2="585"/>
+    <line x1="330" y1="585" x2="410" y2="585"/>
+    <line x1="330" y1="585" x2="330" y2="495"/>       <!-- 上侧撞障碍2 -->
+    <line x1="330" y1="585" x2="210" y2="465"/>       <!-- 左上撞障碍3 -->
+    <line x1="330" y1="585" x2="300" y2="585"/>       <!-- 左侧撞障碍1(部分) -->
+  </g>
+
+  <!-- 无人机图标：圆 + 机头方向 -->
+  <!-- agent_0 (0.3,0.3) -> (150,570)，朝向目标(210,135) -->
+  <g>
+    <circle cx="150" cy="570" r="16" fill="#2b6de0" stroke="#16408c" stroke-width="2"/>
+    <polygon points="162,570 150,566 150,574" fill="#ffffff"/>
+    <text x="150" y="606" font-size="14" fill="#16408c" text-anchor="middle" font-weight="600">agent_0</text>
+  </g>
+  <!-- agent_1 (0.9,0.25) -> (330,585) -->
+  <g>
+    <circle cx="330" cy="585" r="16" fill="#2b6de0" stroke="#16408c" stroke-width="2"/>
+    <polygon points="342,585 330,581 330,589" fill="#ffffff"/>
+    <text x="330" y="621" font-size="14" fill="#16408c" text-anchor="middle" font-weight="600">agent_1</text>
+  </g>
+  <!-- agent_2 (0.25,0.95) -> (135,375) -->
+  <g>
+    <circle cx="135" cy="375" r="16" fill="#2b6de0" stroke="#16408c" stroke-width="2"/>
+    <polygon points="147,375 135,371 135,379" fill="#ffffff"/>
+    <text x="135" y="411" font-size="14" fill="#16408c" text-anchor="middle" font-weight="600">agent_2</text>
+  </g>
+
+  <!-- 逃逸目标 (0.5,1.75) -> (210,135) 红色五角星 -->
+  <g>
+    <polygon points="210,112 219,131 240,135 225,150 228,171 210,160 192,171 195,150 180,135 201,131"
+             fill="#e0483e" stroke="#a52a22" stroke-width="2"/>
+    <text x="210" y="196" font-size="14" fill="#a52a22" text-anchor="middle" font-weight="600">target（逃逸目标）</text>
+  </g>
+
+  <!-- 围捕半径示意：以目标为中心 r=0.3 -->
+  <circle cx="210" cy="135" r="90" fill="none" stroke="#e0483e" stroke-dasharray="6 5" stroke-width="1.5" opacity="0.7"/>
+  <text x="296" y="122" font-size="12" fill="#a52a22">围捕半径 0.3</text>
+
+  <!-- 图例区 -->
+  <g font-size="14">
+    <rect x="700" y="80" width="250" height="320" rx="12" fill="#ffffff" stroke="#d5dee9" stroke-width="1.5"/>
+    <text x="720" y="112" font-size="16" font-weight="700" fill="#33415c">图例</text>
+    <circle cx="734" cy="148" r="9" fill="#2b6de0" stroke="#16408c" stroke-width="1.5"/>
+    <text x="756" y="153" fill="#33415c">追击无人机 ×3</text>
+    <polygon points="724,176 730,186 742,186 734,196 724,196 716,186 728,186" fill="#e0483e"/>
+    <text x="756" y="190" fill="#33415c">逃逸目标 ×1</text>
+    <circle cx="734" cy="222" r="10" fill="#aeb8c7" stroke="#7d8a9c" stroke-width="1.5"/>
+    <text x="756" y="227" fill="#33415c">静止障碍物 ×3</text>
+    <line x1="726" y1="258" x2="742" y2="258" stroke="#22a06b" stroke-width="3"/>
+    <text x="756" y="263" fill="#33415c">激光束 16 束</text>
+    <circle cx="734" cy="294" r="9" fill="none" stroke="#e0483e" stroke-dasharray="4 3" stroke-width="1.5"/>
+    <text x="756" y="299" fill="#33415c">围捕圈（半径 0.3）</text>
+  </g>
+
+  <!-- 参数注释 -->
+  <g font-size="13.5" fill="#33415c">
+    <rect x="700" y="420" width="250" height="210" rx="12" fill="#eef4ff" stroke="#b9cdf5" stroke-width="1.5"/>
+    <text x="720" y="452" font-size="15" font-weight="700" fill="#2b4f9e">环境参数</text>
+    <text x="720" y="482">区域：2 × 2 方形</text>
+    <text x="720" y="510">追击者：v_max = 0.10</text>
+    <text x="720" y="538">目标：v_max = 0.12（更快）</text>
+    <text x="720" y="566">激光感知距离：0.2</text>
+    <text x="720" y="594">仿真步长 Δt = 0.5 s</text>
+  </g>
+  <text x="60" y="748" font-size="13" fill="#8a97a8">* 示意图：布局为典型时刻示意，非真实运行截图</text>
+</svg>

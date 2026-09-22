@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 660" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <title>系统架构图</title>
+  <rect x="0" y="0" width="1100" height="660" fill="#f7f9fc"/>
+
+  <!-- ============ 入口层 ============ -->
+  <g>
+    <rect x="80" y="40" width="440" height="86" rx="12" fill="#eef4ff" stroke="#3b6fd4" stroke-width="2"/>
+    <text x="110" y="70" font-size="17" font-weight="700" fill="#2b4f9e">main.py · 训练入口</text>
+    <text x="110" y="94" font-size="13.5" fill="#4a5a6d">5000 局 × 最多 100 步 · 每 100 局打印平均分</text>
+    <text x="110" y="114" font-size="13.5" fill="#4a5a6d">刷新最佳平均分时保存模型 → tmp/maddpg/UAV_Round_up/</text>
+
+    <rect x="580" y="40" width="440" height="86" rx="12" fill="#f0fbf4" stroke="#2f9e63" stroke-width="2"/>
+    <text x="610" y="70" font-size="17" font-weight="700" fill="#1e7d4d">main_evaluate.py · 评估入口</text>
+    <text x="610" y="94" font-size="13.5" fill="#4a5a6d">加载预训练检查点 · matplotlib 动画渲染围捕过程</text>
+    <text x="610" y="114" font-size="13.5" fill="#4a5a6d">统计速度曲线 · 打印围捕完成所用步数</text>
+  </g>
+
+  <!-- 箭头 -->
+  <polygon points="300,126 300,160 288,152 300,160 312,152" fill="#5c7cab"/>
+  <polygon points="800,126 800,160 788,152 800,160 812,152" fill="#5c7cab"/>
+  <text x="318" y="146" font-size="12.5" fill="#5c7cab">创建 / 加载</text>
+
+  <!-- ============ 算法层 ============ -->
+  <g>
+    <rect x="60" y="168" width="980" height="240" rx="14" fill="#ffffff" stroke="#3b6fd4" stroke-width="2.5"/>
+    <text x="80" y="196" font-size="16" font-weight="700" fill="#2b4f9e">算法层 · MADDPG（集中式训练 / 分布式执行 CTDE）</text>
+
+    <!-- maddpg.py -->
+    <rect x="90" y="212" width="230" height="76" rx="10" fill="#f2f6ff" stroke="#b9cdf5" stroke-width="1.5"/>
+    <text x="108" y="238" font-size="15" font-weight="700" fill="#2b4f9e">maddpg.py</text>
+    <text x="108" y="260" font-size="13" fill="#4a5a6d">MADDPG 核心：管理 4 个 Agent</text>
+    <text x="108" y="279" font-size="13" fill="#4a5a6d">Critic TD 误差 + Actor 策略梯度</text>
+
+    <!-- agent.py -->
+    <rect x="350" y="212" width="280" height="76" rx="10" fill="#f2f6ff" stroke="#b9cdf5" stroke-width="1.5"/>
+    <text x="368" y="238" font-size="15" font-weight="700" fill="#2b4f9e">agent.py · Agent × 4</text>
+    <text x="368" y="260" font-size="13" fill="#4a5a6d">每机 4 网络：actor · critic · target×2</text>
+    <text x="368" y="279" font-size="13" fill="#4a5a6d">探索噪声 0.75→0.01 · 软更新 τ=0.01</text>
+
+    <!-- networks.py -->
+    <rect x="660" y="212" width="350" height="76" rx="10" fill="#f2f6ff" stroke="#b9cdf5" stroke-width="1.5"/>
+    <text x="678" y="238" font-size="15" font-weight="700" fill="#2b4f9e">networks.py</text>
+    <text x="678" y="260" font-size="13" fill="#4a5a6d">Actor：26 →128→128→ 2（Softsign 限幅）</text>
+    <text x="678" y="279" font-size="13" fill="#4a5a6d">Critic：109 →128→128→ 1（全局态+全动作）</text>
+
+    <!-- buffer.py -->
+    <rect x="90" y="312" width="350" height="76" rx="10" fill="#f2f6ff" stroke="#b9cdf5" stroke-width="1.5"/>
+    <text x="108" y="338" font-size="15" font-weight="700" fill="#2b4f9e">buffer.py · 多智能体经验回放</text>
+    <text x="108" y="360" font-size="13" fill="#4a5a6d">容量 100 万 · 全局状态 + 各机局部观测分开存储</text>
+    <text x="108" y="379" font-size="13" fill="#4a5a6d">每 10 步采样训练 · batch = 256</text>
+
+    <!-- 连线 -->
+    <line x1="320" y1="250" x2="348" y2="250" stroke="#9db4dd" stroke-width="1.6" marker-end="url(#arr)"/>
+    <line x1="630" y1="250" x2="658" y2="250" stroke="#9db4dd" stroke-width="1.6" marker-end="url(#arr)"/>
+    <line x1="320" y1="300" x2="320" y2="312" stroke="#9db4dd" stroke-width="1.6" marker-end="url(#arr)"/>
+    <line x1="440" y1="288" x2="440" y2="312" stroke="#9db4dd" stroke-width="1.6" marker-end="url(#arr)"/>
+    <line x1="835" y1="288" x2="835" y2="312" stroke="#9db4dd" stroke-width="1.6" marker-end="url(#arr)"/>
+  </g>
+  <defs>
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <polygon points="0 0, 9 4.5, 0 9" fill="#9db4dd"/>
+    </marker>
+  </defs>
+
+  <!-- 箭头 -->
+  <polygon points="300,408 300,442 288,434 300,442 312,434" fill="#d98b2b"/>
+  <text x="318" y="428" font-size="12.5" fill="#d98b2b">动作 [a_x, a_y] ±0.04</text>
+  <polygon points="800,408 800,442 788,434 800,442 812,434" fill="#d98b2b"/>
+  <text x="818" y="428" font-size="12.5" fill="#d98b2b">观测 26 / 23 维</text>
+
+  <!-- ============ 环境层 ============ -->
+  <g>
+    <rect x="60" y="450" width="980" height="170" rx="14" fill="#ffffff" stroke="#d98b2b" stroke-width="2.5"/>
+    <text x="80" y="478" font-size="16" font-weight="700" fill="#a86a17">环境层 · 围捕仿真环境</text>
+
+    <rect x="90" y="494" width="460" height="106" rx="10" fill="#fff8ef" stroke="#f0d3a8" stroke-width="1.5"/>
+    <text x="108" y="522" font-size="15" font-weight="700" fill="#a86a17">sim_env.py · UAVEnv</text>
+    <text x="108" y="546" font-size="13" fill="#4a5a6d">2D 运动学（速度/加速度限幅）· 16 束激光雷达</text>
+    <text x="108" y="566" font-size="13" fill="#4a5a6d">圆形障碍物 · 碰撞检测 · 分阶段奖励 · 渲染</text>
+    <text x="108" y="586" font-size="13" fill="#4a5a6d">观测构造：追击者 26 维 / 目标 23 维</text>
+
+    <rect x="580" y="494" width="430" height="106" rx="10" fill="#fff8ef" stroke="#f0d3a8" stroke-width="1.5"/>
+    <text x="598" y="522" font-size="15" font-weight="700" fill="#a86a17">math_tool.py · 数学工具</text>
+    <text x="598" y="546" font-size="13" fill="#4a5a6d">激光测距：圆 / 边界相交检测</text>
+    <text x="598" y="566" font-size="13" fill="#4a5a6d">三角形面积计算（围捕态势判断）</text>
+  </g>
+
+  <!-- 奖励回环 -->
+  <path d="M 550 560 L 550 610 L 60 610 L 60 540" fill="none" stroke="#d98b2b" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#arr2)"/>
+  <defs>
+    <marker id="arr2" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+      <polygon points="0 0, 9 4.5, 0 9" fill="#d98b2b"/>
+    </marker>
+  </defs>
+  <text x="300" y="636" font-size="12.5" fill="#d98b2b">奖励 / 终止信号 反馈回算法层</text>
+</svg>

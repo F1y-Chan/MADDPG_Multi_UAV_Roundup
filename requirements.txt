@@ -1,0 +1,10 @@
+numpy==1.26.0
+gymnasium==0.26.2
+matplotlib==3.8.4
+pillow==10.2.0
+pandas==2.1.4
+
+# Deep learning framework.
+# For CUDA support, install torch from https://pytorch.org first, e.g.:
+#   pip install torch==2.4.0+cu124
+torch==2.4.0
