@@ -10,6 +10,7 @@ import warnings
 from PIL import Image
 warnings.filterwarnings('ignore')
 
+#拼接所有agent的obs为一个state vector
 def obs_list_to_state_vector(obs):
     state = np.hstack([np.ravel(o) for o in obs])
     return state
@@ -55,7 +56,8 @@ if __name__ == '__main__':
         print('----  evaluating  ----')
     else:
         print('----training start----')
-    
+
+    #主循环
     for i in range(N_GAMES):
         obs = env.reset()
         score = 0
@@ -72,7 +74,9 @@ if __name__ == '__main__':
                     os.makedirs(os.path.dirname(filename), exist_ok=True)  # Create directory if it doesn't exist
                     save_image(env_render, filename)
                 # time.sleep(0.01)
+            #选择动作
             actions = maddpg_agents.choose_action(obs,total_steps,evaluate)
+            #执行动作，更新环境  
             obs_, rewards, dones = env.step(actions)
 
             state = obs_list_to_state_vector(obs)
